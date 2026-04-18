@@ -3,14 +3,11 @@
  *
  * Upload pipeline:
  *   1. User selects / drops a video file
- *   2. FFmpeg.wasm extracts audio to mono 16 kHz WAV in-browser (client-side)
+ *   2. Web Audio API extracts audio → mono 16 kHz WAV (client-side, no WASM)
  *   3. WAV uploaded to backend (multipart/form-data)
  *   4. Backend: chunks WAV → Groq Whisper → transcript
  *   5. User reviews / edits transcript
  *   6. User confirms → Gemini generates structured summary
- *
- * Cross-origin isolation required by FFmpeg.wasm is provided by
- * coi-serviceworker (registered in index.html), not by server headers.
  */
 
 import ProgressTracker from "./ProgressTracker";
@@ -100,7 +97,7 @@ export default function UploadPanel({ slug, onSummarized }: Props) {
           },
         },
         {
-          onSuccess: (result) => {
+          onSuccess: (result: TranscriptionResult) => {
             setTranscriptionResult(result);
             setStage("reviewing");
           },

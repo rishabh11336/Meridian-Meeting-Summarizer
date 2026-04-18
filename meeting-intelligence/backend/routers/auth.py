@@ -11,7 +11,6 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from auth.dependencies import get_current_user
 from auth.tokens import create_access_token, hash_password, verify_password
 from models.user_models import (
-    AdminUserUpdate,
     LoginRequest,
     RegisterRequest,
     TokenResponse,

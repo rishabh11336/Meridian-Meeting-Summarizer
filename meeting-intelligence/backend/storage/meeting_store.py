@@ -182,15 +182,6 @@ async def get_meeting_detail(user_id: str, project_slug: str, meeting_id: str) -
     )
 
 
-async def get_active_transcript(user_id: str, project_slug: str, meeting_id: str) -> str:
-    mdir = _meeting_dir(user_id, project_slug, meeting_id)
-    corrected = mdir / "transcript_corrected.txt"
-    if corrected.exists():
-        async with aiofiles.open(corrected, "r", encoding="utf-8") as f:
-            return await f.read()
-    async with aiofiles.open(mdir / "transcript_raw.txt", "r", encoding="utf-8") as f:
-        return await f.read()
-
 
 # ── Delete ─────────────────────────────────────────────────────────────────────
 

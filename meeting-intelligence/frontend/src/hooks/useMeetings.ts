@@ -2,11 +2,10 @@ import {
   deleteMeeting,
   getMeeting,
   listMeetings,
-  saveCorrection,
   summarizeMeeting,
   uploadMeeting,
 } from "@/api/meetingsApi";
-import type { CorrectionRequest, SummarizeRequest } from "@/types/meeting";
+import type { SummarizeRequest } from "@/types/meeting";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useMeetings(slug: string) {
@@ -49,16 +48,6 @@ export function useSummarizeMeeting(slug: string, meetingId: string) {
     mutationFn: (payload: SummarizeRequest) => summarizeMeeting(slug, meetingId, payload),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ["meetings", slug] });
-      void qc.invalidateQueries({ queryKey: ["meeting", slug, meetingId] });
-    },
-  });
-}
-
-export function useSaveCorrection(slug: string, meetingId: string) {
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: (payload: CorrectionRequest) => saveCorrection(slug, meetingId, payload),
-    onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ["meeting", slug, meetingId] });
     },
   });

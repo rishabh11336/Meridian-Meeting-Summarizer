@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(python -c ' *)",
+      "Bash(npm install *)",
+      "Bash(python -m pip install \"python-jose[cryptography]\" \"passlib[bcrypt]\")",
+      "Bash(python -m pip install \"pydantic[email]\")",
+      "Bash(python -m pip install email-validator)",
+      "Bash(npx tsc *)",
+      "Bash(python -c \"import secrets; print\\(secrets.token_hex\\(32\\)\\)\")",
+      "Bash(python -m pip install \"bcrypt==4.0.1\" --quiet)"
+    ]
+  }
+}
