@@ -36,8 +36,9 @@ GROQ_WHISPER_MODEL: str = "whisper-large-v3-turbo"
 
 # ── Gemini ─────────────────────────────────────────────────────────────────────
 GEMINI_MODEL: str = "gemini-2.5-flash"
-# Summarization: structured output is always ≤ 700 tokens; 1500 gives headroom.
-GEMINI_MAX_TOKENS: int = 1500
+# Summarization: a detailed 30-min meeting fills all 7 sections at ~3-4K tokens.
+# 8192 gives full headroom for even long meetings without truncating any section.
+GEMINI_MAX_TOKENS: int = 8192
 GEMINI_TEMPERATURE: float = 0.3
 # Chat: conversational answers rarely exceed 500 tokens.
 # Output is priced 4× higher than input — keeping this tight matters.

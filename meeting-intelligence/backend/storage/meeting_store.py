@@ -258,6 +258,8 @@ async def build_project_context(user_id: str, project_slug: str) -> str:
     """
     Build a compact context string from all meeting summaries for chat.
     Uses summaries only — not full transcripts — to minimise token cost.
+    Meetings are ordered oldest→newest so the model sees the latest state last.
+    The final entry is explicitly labelled as the most recent meeting.
     """
     mdir = _meetings_dir(user_id, project_slug)
     if not mdir.exists():
@@ -277,12 +279,15 @@ async def build_project_context(user_id: str, project_slug: str) -> str:
         except (json.JSONDecodeError, OSError):
             continue
 
+    # Oldest first — latest meeting appears last (recency anchor for the model).
     entries.sort(key=lambda x: x[0].get("uploaded_at", ""))
 
     parts: list[str] = []
-    for meta, meeting_dir in entries:
+    total = len(entries)
+    for idx, (meta, meeting_dir) in enumerate(entries, start=1):
         filename = meta.get("original_filename", "Unknown")
         uploaded_at = meta.get("uploaded_at", "Unknown")
+        is_latest = idx == total
 
         summary = "[Summary not yet generated]"
         summary_path = meeting_dir / "summary.txt"
@@ -293,10 +298,11 @@ async def build_project_context(user_id: str, project_slug: str) -> str:
             except OSError:
                 pass
 
-        parts.append(
-            f"=== Meeting: {filename} | Date: {uploaded_at} ===\n"
-            f"{summary}\n"
-            f"=== End ==="
+        label = (
+            f"=== MOST RECENT MEETING ({idx}/{total}): {filename} | Date: {uploaded_at} ==="
+            if is_latest
+            else f"=== Meeting ({idx}/{total}): {filename} | Date: {uploaded_at} ==="
         )
+        parts.append(f"{label}\n{summary}\n=== End ===")
 
     return "\n\n".join(parts)

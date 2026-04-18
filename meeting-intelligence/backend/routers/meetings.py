@@ -23,12 +23,10 @@ from services.summarization_service import summarize
 from services.transcription_service import transcribe
 from storage.meeting_store import (
     add_meeting_summary,
-    build_project_context,
     create_meeting_record,
     delete_meeting,
     get_all_meetings,
     get_meeting_detail,
-    get_prior_summaries,
     save_correction,
 )
 from storage.project_store import get_project
@@ -160,10 +158,8 @@ async def summarize_meeting(
     if data.use_correction:
         await save_correction(current_user.id, slug, meeting_id, data.transcript)
 
-    prior_summaries = await get_prior_summaries(current_user.id, slug, meeting_id)
-
     try:
-        summary = await summarize(data.transcript, prior_summaries)
+        summary = await summarize(data.transcript)
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=str(exc))
     except Exception as exc:
