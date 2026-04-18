@@ -1,0 +1,47 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Backend runtime data
+meeting-intelligence/backend/projects/
+meeting-intelligence/backend/temp/
+meeting-intelligence/backend/users/
+meeting-intelligence/backend/logs/
+
+# Large binary assets (generated at build time from node_modules)
+meeting-intelligence/frontend/public/ffmpeg-core.wasm
+meeting-intelligence/frontend/public/ffmpeg-core.js
+
+# API key scratch files
+groq.txt
+
+# Node
+meeting-intelligence/frontend/node_modules/
+meeting-intelligence/frontend/dist/
+meeting-intelligence/frontend/.env
+
+# Logs
+logs/
+
+# Temp audio/video
+*.mp3
+*.wav
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+tmp/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Backend runtime
+backend/projects/
+backend/temp/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.env
+
+# Misc
+.DS_Store
+*.log
